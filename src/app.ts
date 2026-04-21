@@ -29,7 +29,7 @@ function toResponse(
  */
 export async function createApp(config: AppConfig) {
   const {
-    port = 3000,
+    port = 3001,
     databaseUrl: connectionString,
     fetchManifest,
     fetchModule,
@@ -63,6 +63,9 @@ export async function createApp(config: AppConfig) {
     }
     await next();
   });
+
+  // 健康检查路由
+  app.get('/health', (c) => c.json({ status: 'ok' }));
 
   // 错误处理中间件
   app.onError((err, c) => {

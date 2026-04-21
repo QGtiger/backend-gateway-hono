@@ -54,8 +54,8 @@ function getConfig(): AppConfig {
     console.log(`Using local development storage: ${localDevDir}`);
   }
 
-  return {
-    port: 3001,
+   return {
+    port: parseInt(process.env.PORT || '3001', 10),
     databaseUrl,
     fetchManifest,
     fetchModule,
