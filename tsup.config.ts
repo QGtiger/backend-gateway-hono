@@ -6,6 +6,14 @@ export default defineConfig({
   dts: false,
   clean: true,
   sourcemap: true,
-  external: ['hono', '@hono/node-server'],
+  external: [
+    'hono',
+    '@hono/node-server',
+    'chokidar',
+    'pg',
+    'drizzle-orm',
+    'drizzle-orm/node-postgres',
+    '@types/pg'
+  ],
   target: 'node22',
 })

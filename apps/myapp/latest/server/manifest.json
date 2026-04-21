@@ -1,0 +1,24 @@
+{
+  "routes": [
+    {
+      "pattern": "/hello",
+      "file": "hello.js",
+      "params": []
+    },
+    {
+      "pattern": "/users/:id",
+      "file": "users/[id].js",
+      "params": ["id"]
+    },
+    {
+      "pattern": "/ping",
+      "file": "ping.js",
+      "params": []
+    },
+    {
+      "pattern": "/es-module",
+      "file": "es-module.js",
+      "params": []
+    }
+  ]
+}
