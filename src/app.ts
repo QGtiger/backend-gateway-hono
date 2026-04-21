@@ -7,6 +7,7 @@ import { Pool } from "pg";
 import { matchRoute, extractAppInfo } from "./utils";
 import type { AppEnv, AppConfig } from "./types";
 import { ManifestManager, ModuleManager } from "./loader";
+import { cors } from 'hono/cors';
 
 /**
  * 将处理器返回值转换为标准响应格式
@@ -36,6 +37,9 @@ export async function createApp(config: AppConfig) {
   } = config;
 
   const app = new Hono<AppEnv>();
+
+  // 统一处理跨域与预检请求，避免浏览器拦截前端 API 调用
+  app.use('/api/*', cors({ origin: '*' }))
 
   // 初始化数据库连接
   let dbPool: Pool | null = null;
