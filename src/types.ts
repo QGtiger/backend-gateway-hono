@@ -15,8 +15,11 @@ export interface Route {
   params: string[];
 }
 
+export type RouteMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
+
 export type RouteModule = {
   default: (c: any) => unknown | Promise<unknown>;
+  method?: RouteMethod | RouteMethod[];
 };
 
 

@@ -50,7 +50,22 @@ export async function createApp(config: AppConfig) {
       );
 
       // @ts-ignore
-      console.log('method', module.method, Object.keys(module))
+      console.log('========= DEBUG =========');
+      console.log('matched file:', match.route.file);
+      console.log('request method:', c.req.method);
+      console.log('module.method:', module.method);
+      console.log('typeof module.method:', typeof module.method);
+      console.log('Object.keys(module):', Object.keys(module));
+      console.log('hasOwnProperty method:', Object.prototype.hasOwnProperty.call(module, 'method'));
+      if (Object.prototype.hasOwnProperty.call(module, 'method')) {
+        const desc = Object.getOwnPropertyDescriptor(module, 'method');
+        console.log('method descriptor:', JSON.stringify(desc, null, 2));
+        // 如果是 getter，手动触发一下
+        if (desc && desc.get) {
+          console.log('method via getter:', desc.get());
+        }
+      }
+      console.log('==========================');
 
       checkRouteModule(module);
 
