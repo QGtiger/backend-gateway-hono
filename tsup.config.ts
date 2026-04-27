@@ -13,7 +13,9 @@ export default defineConfig({
     'pg',
     'drizzle-orm',
     'drizzle-orm/node-postgres',
-    '@types/pg'
+    '@types/pg',
+    '@lightfish/server',
+    '@lightfish/server/shared',
   ],
   target: 'node22',
 })
