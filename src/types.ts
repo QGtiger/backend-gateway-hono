@@ -29,8 +29,8 @@ export type ManifestFetcher = (appName: string, version: string) => Promise<Mani
 export type ModuleFetcher = (appName: string, version: string, filePath: string) => Promise<string>;
 
 export interface AppConfig {
-  port?: number;
-  databaseUrl?: string;
+  port: number;
+  databaseUrl: string;
   fetchManifest: ManifestFetcher;
   fetchModule: ModuleFetcher;
 }

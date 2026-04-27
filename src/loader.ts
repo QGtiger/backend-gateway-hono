@@ -102,7 +102,7 @@ export class ManifestManager {
   }
 }
 
-const EXTERNAL_MODULES = ["drizzle-orm"];
+const EXTERNAL_MODULES = ["drizzle-orm", "@lightfish/server"];
 
 /**
  * 带缓存的模块管理器
