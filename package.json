@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@lightfish/server": "0.0.9",
+    "@lightfish/server": "0.0.10",
     "@types/node": "^25.6.0",
     "tsup": "^8.5.1",
     "typescript": "^5.2.2"

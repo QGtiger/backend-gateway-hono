@@ -34,8 +34,8 @@ importers:
         version: 3.10.5
     devDependencies:
       '@lightfish/server':
-        specifier: 0.0.9
-        version: 0.0.9(drizzle-orm@0.45.2(@types/pg@8.20.0)(pg@8.20.0))(pg@8.20.0)
+        specifier: 0.0.10
+        version: 0.0.10(drizzle-orm@0.45.2(@types/pg@8.20.0)(pg@8.20.0))(pg@8.20.0)
       '@types/node':
         specifier: ^25.6.0
         version: 25.6.0
@@ -522,8 +522,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lightfish/server@0.0.9':
-    resolution: {integrity: sha512-XvIPF/i6+ZcSplp7GplJqNP7ttvZV7W2ZUgbeNcisZ8xcWMvvnoOE3KmsfQxKT9D23knSmJ2w1oIbu5pY8+shw==}
+  '@lightfish/server@0.0.10':
+    resolution: {integrity: sha512-cX1knJP64IOCRgF832W1uNBrsDwMTLE7TBwZO7QKIQgNzHjnkAMw54iPzCHuucIPjEGy7aOruABYns+xENszqw==}
     hasBin: true
     peerDependencies:
       drizzle-orm: ^0.45.2
@@ -1500,7 +1500,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lightfish/server@0.0.9(drizzle-orm@0.45.2(@types/pg@8.20.0)(pg@8.20.0))(pg@8.20.0)':
+  '@lightfish/server@0.0.10(drizzle-orm@0.45.2(@types/pg@8.20.0)(pg@8.20.0))(pg@8.20.0)':
     dependencies:
       '@hono/node-server': 1.19.14(hono@4.12.14)
       '@types/pg': 8.20.0

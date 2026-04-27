@@ -1,31 +1,8 @@
-import { Hono } from "hono";
-import { serve } from "@hono/node-server";
-import { sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/node-postgres";
-import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
 import { matchRoute, extractAppInfo } from "./utils";
-import type { AppEnv, AppConfig } from "./types";
+import type { AppConfig } from "./types";
 import { ManifestManager, ModuleManager } from "./loader";
-import { cors } from "hono/cors";
 
 import { createHonoApp } from "@lightfish/server/shared";
-
-/**
- * 将处理器返回值转换为标准响应格式
- */
-function toResponse(
-  c: { json: (data: unknown) => Response },
-  result: unknown
-): Response {
-  if (result instanceof Response) {
-    return result;
-  }
-  return c.json({
-    success: true,
-    data: result,
-  });
-}
 
 /**
  * 创建并启动 API 服务器
@@ -40,7 +17,7 @@ export async function createApp(config: AppConfig) {
   const app = await createHonoApp({
     port,
     databaseUrl,
-    async dynamicRouteExecutor(c, requestPath) {
+    async dynamicRouteExecutor(c, requestPath, { checkRouteModule }) {
       const appInfo = extractAppInfo(c);
       const { appName, version } = appInfo;
 
@@ -71,6 +48,8 @@ export async function createApp(config: AppConfig) {
         version,
         match.route.file
       );
+
+      checkRouteModule(module);
 
       if (typeof module.default !== "function") {
         throw new Error(
