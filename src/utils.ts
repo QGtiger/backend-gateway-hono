@@ -15,38 +15,30 @@ export function extractAppInfo(c: any): { appName: string; version: string } {
 }
 
 /**
- * 匹配请求路径与路由配置
+ * 匹配请求路径到路由
+ * @param requestPath 请求路径，如 /users/123
+ * @param routes 路由数组
+ * @returns 匹配到的路由和参数，未匹配到则返回 null
  */
 export function matchRoute(requestPath: string, routes: Route[]): { route: Route; params: Record<string, string> } | null {
-  for (const route of routes) {
-    const patternParts = route.pattern.split('/').filter(Boolean);
-    const pathParts = requestPath.split('/').filter(Boolean);
-    
-    if (patternParts.length !== pathParts.length && !route.pattern.includes('*')) {
-      continue;
-    }
+  // 按优先级排序：静态路径优先，动态参数少的优先
+  const sortedRoutes = [...routes].sort((a, b) => {
+    const aDynamic = (a.pattern.match(/:/g) || []).length;
+    const bDynamic = (b.pattern.match(/:/g) || []).length;
+    return aDynamic - bDynamic;
+  });
 
-    const params: Record<string, string> = {};
-    let match = true;
-
-    for (let i = 0; i < patternParts.length; i++) {
-      const patternPart = patternParts[i];
-      const pathPart = pathParts[i];
-
-      if (patternPart.startsWith(':')) {
-        const paramName = patternPart.slice(1);
-        params[paramName] = pathPart;
-      } else if (patternPart === '*') {
-        // 通配符匹配剩余部分
-        params['*'] = pathParts.slice(i).join('/');
-        break;
-      } else if (patternPart !== pathPart) {
-        match = false;
-        break;
-      }
-    }
+  for (const route of sortedRoutes) {
+    const regex = new RegExp(
+      '^' + route.pattern.replace(/:([^/]+)/g, '([^/]+)') + '$'
+    );
+    const match = requestPath.match(regex);
 
     if (match) {
+      const params: Record<string, string> = {};
+      route.params.forEach((name, i) => {
+        params[name] = match[i + 1];
+      });
       return { route, params };
     }
   }
