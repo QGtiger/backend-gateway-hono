@@ -49,6 +49,9 @@ export async function createApp(config: AppConfig) {
         match.route.file
       );
 
+      // @ts-ignore
+      console.log('method', module.method, Object.keys(module))
+
       checkRouteModule(module);
 
       if (typeof module.default !== "function") {
