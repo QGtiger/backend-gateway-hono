@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.19.14",
-    "@lightfish/server": "0.0.13",
+    "@lightfish/server": "0.0.19",
     "@types/pg": "^8.20.0",
     "chokidar": "^3.5.3",
     "drizzle-orm": "^0.45.2",

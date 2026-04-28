@@ -1,6 +1,7 @@
-import { matchRoute, extractAppInfo } from "./utils";
+import { matchRoute } from "./utils";
 import type { AppConfig } from "./types";
 import { ManifestManager, ModuleManager } from "./loader";
+import { RouterConfigManager } from "./router-config-manager";
 
 import { createHonoApp } from "@lightfish/server/shared";
 
@@ -13,16 +14,23 @@ export async function createApp(config: AppConfig) {
   // 初始化管理器
   const manifestManager = new ManifestManager(fetchManifest);
   const moduleManager = new ModuleManager(fetchModule);
+  const routerConfigManager = new RouterConfigManager();
 
   const app = await createHonoApp({
     port,
     databaseUrl,
-    async dynamicRouteExecutor(c, requestPath, { checkRouteModule }) {
-      const appInfo = extractAppInfo(c);
-      const { appName, version } = appInfo;
-
+    async dynamicRouteExecutor(c, requestPath, { checkRouteModule, appName, version }) {
       if (!appName || !version) {
         throw new Error("Missing appName or version");
+      }
+
+      // 如果 version 为 latest，则从配置中心获取
+      if (version === 'latest') {
+        const configVersion = await routerConfigManager.getVersion(appName);
+        if (configVersion !== null) {
+          version = String(configVersion);
+          console.log(`Version from config center for ${appName}: ${version}`);
+        }
       }
 
       // 设置到上下文中
@@ -84,6 +92,20 @@ export async function createApp(config: AppConfig) {
   });
   // 健康检查路由
   app.get("/health", (c) => c.json({ status: "ok" }));
+
+  // 刷新配置中心缓存
+  app.get("/refresh-config", async (c) => {
+    try {
+      await routerConfigManager.refreshConfig();
+      return c.json({ status: "ok", message: "配置已刷新" });
+    } catch (error) {
+      console.error("Failed to refresh config:", error);
+      return c.json(
+        { status: "error", message: "配置刷新失败" },
+        500 as any
+      );
+    }
+  });
 
   return app;
 }

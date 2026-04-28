@@ -1,20 +1,6 @@
 import type { Route } from './types';
 
 /**
- * 从请求头中提取 appName 和 version
- */
-export function extractAppInfo(c: any): { appName: string; version: string } {
-  const appName = c.req.header('X-App-Name');
-  const version = c.req.header('X-Version');
-  
-  if (!appName || !version) {
-    throw new Error('Missing X-App-Name or X-Version header');
-  }
-  
-  return { appName, version };
-}
-
-/**
  * 匹配请求路径到路由
  * @param requestPath 请求路径，如 /users/123
  * @param routes 路由数组
