@@ -150,6 +150,7 @@ export class ModuleManager {
           sandbox: {
             fetch: fetch,
             URL: URL,
+            FormData
           },
         });
         const module: RouteModule = vm.run(
