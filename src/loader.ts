@@ -147,6 +147,9 @@ export class ModuleManager {
             root: "./",
           },
           wrapper: "commonjs",
+          sandbox: {
+            fetch: fetch,
+          },
         });
         const module: RouteModule = vm.run(
           code,
