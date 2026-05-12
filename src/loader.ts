@@ -143,14 +143,16 @@ export class ModuleManager {
           console: "inherit",
           require: {
             external: EXTERNAL_MODULES,
-            builtin: ["path", "crypto"],
+            builtin: ["path", "crypto", "stream"],
             root: "./",
           },
           wrapper: "commonjs",
           sandbox: {
             fetch: fetch,
             URL: URL,
-            FormData
+            FormData,
+            Headers,
+            Response,
           },
         });
         const module: RouteModule = vm.run(
