@@ -2,7 +2,7 @@
 FROM node:22-alpine AS builder
 
 # 安装pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@9
 
 WORKDIR /app
 
@@ -24,7 +24,7 @@ FROM node:22-alpine AS production
 WORKDIR /app
 
 # 安装pnpm（生产环境也需要，用于安装生产依赖）
-RUN npm install -g pnpm
+RUN npm install -g pnpm@9
 
 # 复制package.json和pnpm-lock.yaml
 COPY package.json pnpm-lock.yaml ./
