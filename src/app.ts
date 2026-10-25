@@ -156,6 +156,10 @@ export async function createApp(config: AppConfig) {
         // 设置路径参数到上下文
         c.set("params", routeMatch.params);
 
+        // 清空 drizzle CasingCache，避免跨版本同名表的列缓存碰撞
+        // （getColumnCasing 对旧版本未缓存的列返回 undefined → escapeName(undefined) 报错）
+        (c.get("db") as any)?.dialect?.casing?.clearCache?.();
+
         // span: 沙箱初始化 & 执行（nested）
         const execSpan = trace.start("沙箱初始化 & 执行");
         let result: unknown;
