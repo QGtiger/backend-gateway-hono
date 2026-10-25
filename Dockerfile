@@ -1,8 +1,8 @@
 # 多阶段构建：builder阶段用于安装依赖和构建，production阶段用于运行
 FROM node:22-alpine AS builder
 
-# 安装pnpm
-RUN npm install -g pnpm@9
+# 安装pnpm（顺带配置国内镜像源，写入 ~/.npmrc，后续 pnpm install 自动走 npmmirror）
+RUN npm config set registry https://registry.npmmirror.com && npm install -g pnpm@9
 
 WORKDIR /app
 
@@ -21,10 +21,10 @@ RUN pnpm run build
 # 生产运行阶段
 FROM node:22-alpine AS production
 
-WORKDIR /app
-
 # 安装pnpm（生产环境也需要，用于安装生产依赖）
-RUN npm install -g pnpm@9
+RUN npm config set registry https://registry.npmmirror.com && npm install -g pnpm@9
+
+WORKDIR /app
 
 # 复制package.json和pnpm-lock.yaml
 COPY package.json pnpm-lock.yaml ./
